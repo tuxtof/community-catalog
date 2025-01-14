@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cnpg-0.23.0-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml:
