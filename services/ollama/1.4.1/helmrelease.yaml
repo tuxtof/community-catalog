@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ollama
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: ollama
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: ollama
+        namespace: ${releaseNamespace}
+      version: 1.4.1
+  interval: 1m0s
+  targetNamespace: ${releaseNamespace}
+  releaseName: ollama
+  valuesFrom:
+    - kind: ConfigMap
+      name: ollama-1.4.1-defaults
+    - kind: ConfigMap
+      name: ollama-overrides
+      optional: true
