@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: n8n
+  namespace: ${releaseNamespace}
+spec:
+  serviceName: "n8n-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: n8n
+  template:
+    metadata:
+      labels:
+        app: n8n
+    spec:
+      containers:
+      - name: n8n
+        image: n8nio/n8n:1.77.3
+        ports:
+        - containerPort: 5678
+          name: http
+        env:
+        - name: OLLAMA_HOST
+          value: "ollama:11434"
+        volumeMounts:
+        - name: storage
+          mountPath: /home/node/.n8n
+  volumeClaimTemplates:
+  - metadata:
+      name: storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 40Gi
