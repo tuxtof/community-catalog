@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: infisical
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: infisical
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: infisical
+        namespace: ${releaseNamespace}
+      version: latest
+  interval: 1m0s
+  targetNamespace: ${releaseNamespace}
+  releaseName: infisical
+  valuesFrom:
+    - kind: ConfigMap
+      name: infisical-0.109.0-defaults
+    - kind: ConfigMap
+      name: infisical-overrides
+      optional: true
