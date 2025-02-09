@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: kyverno
         namespace: ${releaseNamespace}
-      version: 3.3.5
+      version: 3.3.6
   install:
     createNamespace: true
   interval: 1m0s
@@ -21,7 +21,7 @@ spec:
   releaseName: kyverno
   valuesFrom:
     - kind: ConfigMap
-      name: kyverno-3.3.5-defaults
+      name: kyverno-3.3.6-defaults
     - kind: ConfigMap
       name: kyverno-overrides
       optional: true
