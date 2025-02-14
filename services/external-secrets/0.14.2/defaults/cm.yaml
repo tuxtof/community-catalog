@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: external-secrets-0.14.2-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
