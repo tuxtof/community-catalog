@@ -13,13 +13,13 @@ spec:
         kind: HelmRepository
         name: open-webui
         namespace: ${releaseNamespace}
-      version: 5.10.1
+      version: 5.11.0
   interval: 1m0s
   targetNamespace: ${releaseNamespace}
   releaseName: open-webui
   valuesFrom:
     - kind: ConfigMap
-      name: open-webui-5.10.1-defaults
+      name: open-webui-5.11.0-defaults
     - kind: ConfigMap
       name: open-webui-overrides
       optional: true
