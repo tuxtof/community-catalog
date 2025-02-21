@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: open-webui-5.16.1-defaults
+  name: open-webui-5.17.0-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
