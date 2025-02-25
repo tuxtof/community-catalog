@@ -13,13 +13,13 @@ spec:
         kind: HelmRepository
         name: ollama
         namespace: ${releaseNamespace}
-      version: 1.6.0
+      version: 1.7.0
   interval: 1m0s
   targetNamespace: ${releaseNamespace}
   releaseName: ollama
   valuesFrom:
     - kind: ConfigMap
-      name: ollama-1.6.0-defaults
+      name: ollama-1.7.0-defaults
     - kind: ConfigMap
       name: ollama-overrides
       optional: true

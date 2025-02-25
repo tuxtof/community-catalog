@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ollama-1.6.0-defaults
+  name: ollama-1.7.0-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
