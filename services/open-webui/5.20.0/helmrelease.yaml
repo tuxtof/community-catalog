@@ -19,7 +19,7 @@ spec:
   releaseName: open-webui
   valuesFrom:
     - kind: ConfigMap
-      name: open-webui-5.19.0-defaults
+      name: open-webui-5.20.0-defaults
     - kind: ConfigMap
       name: open-webui-overrides
       optional: true
