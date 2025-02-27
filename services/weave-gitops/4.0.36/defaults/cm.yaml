@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weave-gitops-4.0.36-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    adminUser:
+      create: true
+      passwordHash: $2a$10$5Il1TpbLj1E/lnacRimReuBpSD.eKURB1Ik4nYoNNrNNTQgfVePzC
+      username: admin
