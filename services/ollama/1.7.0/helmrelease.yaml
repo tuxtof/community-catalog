@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: ollama
         namespace: ${releaseNamespace}
-      version: 1.7.0
+      version: 1.8.0
   interval: 1m0s
   targetNamespace: ${releaseNamespace}
   releaseName: ollama
