@@ -19,7 +19,7 @@ spec:
   releaseName: ollama
   valuesFrom:
     - kind: ConfigMap
-      name: ollama-1.7.0-defaults
+      name: ollama-1.8.0-defaults
     - kind: ConfigMap
       name: ollama-overrides
       optional: true
