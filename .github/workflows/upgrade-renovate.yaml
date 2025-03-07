@@ -13,120 +13,86 @@ jobs:
       pull-requests: write
 
     steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-          with:
-            ref: ${{ github.head_ref }}  # Checkout the PR branch
-            fetch-depth: 0
-            token: ${{ secrets.GITHUB_TOKEN }}
-        
-        - name: Extract info from PR title
-          id: extract
-          run: |
-            # Get PR title
-            PR_TITLE="${{ github.event.pull_request.title }}"
-            
-            # Extract component name (text between "release" and "to")
-            COMPONENT=$(echo "$PR_TITLE" | sed -n 's/.*release \(.*\) to .*/\1/p')
-            
-            # Extract version (last word, removing 'v' prefix if present)
-            VERSION=$(echo "$PR_TITLE" | awk '{print $NF}' | sed 's/^v//')
-            
-            # Set outputs
-            echo "component=$COMPONENT" >> $GITHUB_OUTPUT
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract info from PR title
+        id: extract
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          COMPONENT=$(echo "$PR_TITLE" | sed -n 's/.*release \(.*\) to .*/\1/p')
+          VERSION=$(echo "$PR_TITLE" | awk '{print $NF}' | sed 's/^v//')
+          echo "component=$COMPONENT" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-        - name: Run update script
-          run: |
-            echo upgrade ${{ steps.extract.outputs.component }} to version ${{ steps.extract.outputs.version }}
-            cd services/${{ steps.extract.outputs.component }} || exit 1
-            current_folder=$(ls -d */ | grep -E '[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
-            current_version=$(echo "$current_folder" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-            new_version=${{ steps.extract.outputs.version }}
-            echo "Current folder: ${current_folder}"
-            echo "Current version: ${current_version}"
-            echo "New version: ${new_version}"
+      - name: Run update script
+        run: |
+          echo "Upgrading ${{ steps.extract.outputs.component }} to version ${{ steps.extract.outputs.version }}"
+          cd services/${{ steps.extract.outputs.component }} || exit 1
+          
+          # Get current version info
+          current_folder=$(ls -d */ | grep -E '[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+          current_version=$(echo "$current_folder" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+          new_version=${{ steps.extract.outputs.version }}
+          
+          # Skip if versions match
+          if [ "$current_version" == "$new_version" ]; then
+              echo "New version is same as current version"
+              exit 0
+          fi
+          
+          # Define YAML paths to update
+          declare -A yaml_updates=(
+              ["helmrelease.yaml"]="spec.chart.spec.version"
+              ["helmrelease.yaml"]="spec.valuesFrom[0].name"
+              ["defaults/cm.yaml"]="metadata.name"
+          )
+          
+          # Update files
+          cd ${current_folder} || exit 1
+          for file_path in "${!yaml_updates[@]}"; do
+              yaml_path="${yaml_updates[$file_path]}"
+              
+              if [ -f "$file_path" ]; then
+                  current_value=$(yq eval ".$yaml_path" "$file_path")
+                  
+                  if [ $? -eq 0 ] && [ ! -z "$current_value" ]; then
+                      new_value="${current_value/$current_version/$new_version}"
+                      yq eval ".$yaml_path = \"$new_value\"" -i "$file_path"
+                  fi
+              fi
+          done
+          
+          # Rename folder
+          cd ..
+          current_folder_path="${current_folder%/}"
+          new_folder_name="${current_folder_path/$current_version/$new_version}"
+          
+          if [ -d "$current_folder_path" ]; then
+              mv "$current_folder_path" "$new_folder_name"
+          fi
 
-            # check if new version is same as current version
-            if [ "$current_version" == "$new_version" ]; then
-                echo "New version is same as current version"
-                exit 0
-            fi
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "NKP-catalog[bot]@users.noreply.github.com"
+          git config --local user.name "NKP Catalog Bot"
+          git add -A
+          git commit -m "chore: upgrade all items to version ${{ steps.extract.outputs.version }}"
+          git push
 
-            declare -A yaml_updates=(
-                ["helmrelease.yaml"]="spec.chart.spec.version"
-                ["helmrelease.yaml"]="spec.valuesFrom[0].name"
-                ["defaults/cm.yaml"]="metadata.name"
-            )
-
-            cd ${current_folder} || exit 1
-
-            # Update version in each yaml file
-            for file_path in "${!yaml_updates[@]}"; do
-                yaml_path="${yaml_updates[$file_path]}"
-                
-                if [ -f "$file_path" ]; then
-                    # Get current value at the YAML path
-                    current_value=$(yq eval ".$yaml_path" "$file_path")
-                    
-                    if [ $? -eq 0 ] && [ ! -z "$current_value" ]; then
-                        # Replace version number in the current value
-                        new_value="${current_value/$current_version/$new_version}"
-                        
-                        # Update the YAML using the new value
-                        yq eval ".$yaml_path = \"$new_value\"" -i "$file_path"
-                        
-                        if [ $? -eq 0 ]; then
-                            echo "Updated version in ${file_path} at path: ${yaml_path}"
-                            echo "From: ${current_value}"
-                            echo "To: ${new_value}"
-                        else
-                            echo "Error updating ${file_path}"
-                            exit 1
-                        fi
-                    else
-                        echo "Warning: Could not read value at path ${yaml_path} in ${file_path}"
-                    fi
-                else
-                    echo "Warning: ${file_path} not found"
-                fi
-            done
-
-            cd ..
-            # Rename the version folder
-            current_folder_path="${current_folder%/}"  # Remove trailing slash if present
-            new_folder_name="${current_folder_path/$current_version/$new_version}"
-
-            if [ -d "$current_folder_path" ]; then
-                mv "$current_folder_path" "$new_folder_name"
-                if [ $? -eq 0 ]; then
-                    echo "Successfully renamed folder from ${current_folder_path} to ${new_folder_name}"
-                else
-                    echo "Error: Failed to rename folder"
-                    exit 1
-                fi
-            else
-                echo "Error: Current version folder not found"
-                exit 1
-            fi
-
-        - name: Create Commit and push
-          run: |
-            git config --local user.email "NKP-catalog[bot]@users.noreply.github.com"
-            git config --local user.name "NKP Catalog Bot"
-            git add -A
-            git commit -m "chore: upgrade all items to version ${{ steps.extract.outputs.version }}"
-            git push
-
-        - name: Add labels
-          uses: actions/github-script@v7
-          with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              script: |
-                await github.rest.issues.addLabels({
-                    issue_number: context.issue.number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    labels: ['catalog-ready']
-                })
+      - name: Add labels
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['catalog-ready']
+            })
           

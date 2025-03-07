@@ -19,7 +19,7 @@ spec:
   releaseName: infisical
   valuesFrom:
     - kind: ConfigMap
-      name: infisical-0.109.0-defaults
+      name: infisical-0.114.0-defaults
     - kind: ConfigMap
       name: infisical-overrides
       optional: true
