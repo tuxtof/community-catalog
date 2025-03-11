@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: open-webui
         namespace: ${releaseNamespace}
-      version: 5.20.0
+      version: 5.21.0
   interval: 1m0s
   targetNamespace: ${releaseNamespace}
   releaseName: open-webui
