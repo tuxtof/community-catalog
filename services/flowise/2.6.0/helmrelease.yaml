@@ -19,7 +19,7 @@ spec:
   releaseName: flowise
   valuesFrom:
     - kind: ConfigMap
-      name: flowise-2.2.4-defaults
+      name: flowise-2.6.0-defaults
     - kind: ConfigMap
       name: flowise-overrides
       optional: true
