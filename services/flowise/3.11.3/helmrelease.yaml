@@ -15,7 +15,10 @@ spec:
         namespace: ${releaseNamespace}
       version: 3.11.3
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  targetNamespace: flowise
   releaseName: flowise
   valuesFrom:
     - kind: ConfigMap

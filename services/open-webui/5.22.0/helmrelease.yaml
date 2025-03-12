@@ -15,7 +15,10 @@ spec:
         namespace: ${releaseNamespace}
       version: 5.22.0
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  targetNamespace: open-webui
+  install:
+    createNamespace: true
+    crds: CreateReplace
   releaseName: open-webui
   valuesFrom:
     - kind: ConfigMap

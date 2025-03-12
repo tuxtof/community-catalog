@@ -15,7 +15,10 @@ spec:
         namespace: ${releaseNamespace}
       version: latest
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  targetNamespace: infisical
+  install:
+    createNamespace: true
+    crds: CreateReplace
   releaseName: infisical
   valuesFrom:
     - kind: ConfigMap

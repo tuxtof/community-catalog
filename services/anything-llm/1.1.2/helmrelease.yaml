@@ -15,7 +15,10 @@ spec:
         namespace: ${releaseNamespace}
       version: 1.1.2
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  targetNamespace: anything-llm
   releaseName: anything-llm
   valuesFrom:
     - kind: ConfigMap

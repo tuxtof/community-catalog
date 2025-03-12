@@ -15,7 +15,10 @@ spec:
         namespace: ${releaseNamespace}
       version: 1.8.0
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  targetNamespace: ollama
   releaseName: ollama
   valuesFrom:
     - kind: ConfigMap

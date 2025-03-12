@@ -16,6 +16,7 @@ spec:
       version: 3.3.7
   install:
     createNamespace: true
+    crds: CreateReplace
   interval: 1m0s
   targetNamespace: kyverno
   releaseName: kyverno

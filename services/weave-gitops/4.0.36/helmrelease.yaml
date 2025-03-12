@@ -19,7 +19,10 @@ spec:
         namespace: ${releaseNamespace}
       version: 4.0.36
   interval: 1m0s
-  targetNamespace: ${releaseNamespace}
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  targetNamespace: weave-gitops
   releaseName: weave-gitops
   valuesFrom:
     - kind: ConfigMap
