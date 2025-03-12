@@ -1,0 +1,14 @@
+displayName: flowise
+description: Drag & drop UI to build your customized LLM flow
+category:
+  - AI
+type: catalog
+allowMultipleInstances: false
+scope:
+  - workspace
+licensing:
+  - Ultimate
+  - Enterprise
+certifications:
+overview: |-
+  Drag & drop UI to build your customized LLM flow
