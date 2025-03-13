@@ -2,11 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: infisical
+  name: services
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
   timeout: 1m
   url: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
----
-
