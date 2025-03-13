@@ -2,18 +2,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ollama
+  name: services
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: ollama
+      chart: services
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: ollama
+        name: services
         namespace: ${releaseNamespace}
-      version: 1.8.0
+      version: 1.9.0
   interval: 1m0s
   install:
     createNamespace: true
@@ -22,7 +22,7 @@ spec:
   releaseName: ollama
   valuesFrom:
     - kind: ConfigMap
-      name: ollama-1.8.0-defaults
+      name: services-1.9.0-defaults
     - kind: ConfigMap
-      name: ollama-overrides
+      name: services-overrides
       optional: true

@@ -2,11 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: ollama
+  name: services
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
   timeout: 1m
   url: https://otwld.github.io/ollama-helm/
----
-
