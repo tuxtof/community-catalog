@@ -2,16 +2,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: services
+  name: open-webui
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: services
+      chart: open-webui
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: services
+        name: open-webui
         namespace: ${releaseNamespace}
       version: 5.23.0
   interval: 1m0s
@@ -22,7 +22,7 @@ spec:
   releaseName: open-webui
   valuesFrom:
     - kind: ConfigMap
-      name: services-5.23.0-defaults
+      name: open-webui-5.23.0-defaults
     - kind: ConfigMap
-      name: services-overrides
+      name: open-webui-overrides
       optional: true
