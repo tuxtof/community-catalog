@@ -13,16 +13,16 @@ spec:
         kind: HelmRepository
         name: services
         namespace: ${releaseNamespace}
-      version: 0.116.0
+      version: 0.117.0
   interval: 1m0s
   install:
     createNamespace: true
     crds: CreateReplace
-  targetNamespace: infisical
-  releaseName: infisical
+  targetNamespace: infisical-system
+  releaseName: services
   valuesFrom:
     - kind: ConfigMap
-      name: services-0.116.0-defaults
+      name: services-0.117.0-defaults
     - kind: ConfigMap
       name: services-overrides
       optional: true

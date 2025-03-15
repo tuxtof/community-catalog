@@ -2,12 +2,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: services-0.116.0-defaults
+  name: services-0.117.0-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     infisical:
       image:
         repository: infisical/infisical
-        tag: "v0.116.0-postgres"
+        tag: "v0.117.0-postgres"
         pullPolicy: IfNotPresent
+    
