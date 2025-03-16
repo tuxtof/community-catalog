@@ -58,3 +58,21 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 5678
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n-ingress
+  namespace: n8n
+spec:
+  rules:
+    - host: n8n.${ingressAddress}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: n8n
+                port:
+                  number: 80
