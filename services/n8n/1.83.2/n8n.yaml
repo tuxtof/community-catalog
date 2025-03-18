@@ -26,13 +26,15 @@ spec:
         fsGroup: 1000
       containers:
         - name: n8n
-          image: n8nio/n8n:1.77.3
+          image: n8nio/n8n:1.83.2
           ports:
             - containerPort: 5678
               name: http
           env:
             - name: OLLAMA_HOST
               value: "ollama:11434"
+            - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE
+              value: "true"
           volumeMounts:
             - name: storage
               mountPath: /home/node/.n8n
