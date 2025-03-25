@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eck-operator-2.16.1-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    
