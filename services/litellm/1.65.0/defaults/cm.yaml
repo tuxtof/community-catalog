@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: litellm-1.63.11-defaults
+  name: litellm-1.65.0-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: |
+  values.yaml: ""
