@@ -44,7 +44,16 @@ jobs:
               echo "New version is same as current version"
               exit 0
           fi
+
+          # Create folder
+          cd ..
+          current_folder_path="${current_folder%/}"
+          new_folder_name="${current_folder_path/$current_version/$new_version}"
           
+          if [ -d "$current_folder_path" ]; then
+              cp -a "$current_folder_path" "$new_folder_name"
+          fi
+
           # Define YAML paths to update
           declare -A yaml_updates=(
               ["helmrelease.yaml"]="spec.chart.spec.version"
@@ -53,7 +62,7 @@ jobs:
           )
           
           # Update files
-          cd ${current_folder} || exit 1
+          cd ${new_folder} || exit 1
           for file_path in "${!yaml_updates[@]}"; do
               yaml_path="${yaml_updates[$file_path]}"
               
@@ -67,14 +76,7 @@ jobs:
               fi
           done
           
-          # Rename folder
-          cd ..
-          current_folder_path="${current_folder%/}"
-          new_folder_name="${current_folder_path/$current_version/$new_version}"
-          
-          if [ -d "$current_folder_path" ]; then
-              mv "$current_folder_path" "$new_folder_name"
-          fi
+
 
       - name: Commit and push changes
         run: |
