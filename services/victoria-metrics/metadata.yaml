@@ -1,7 +1,7 @@
 displayName: victoria-metrics-single
 description: Victoria Metrics Single version - high-performance, cost-effective and scalable TSDB, long-term remote storage for Prometheus
 category:
-  - General
+  - Monitoring
 type: catalog
 allowMultipleInstances: false
 scope:

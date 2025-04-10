@@ -1,7 +1,7 @@
 displayName: victoria-logs-single
 description: Victoria Logs Single version - high-performance, cost-effective and scalable logs storage
 category:
-  - General
+  - Monitoring
 type: catalog
 allowMultipleInstances: false
 scope:
