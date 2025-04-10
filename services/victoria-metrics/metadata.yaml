@@ -1,0 +1,18 @@
+displayName: victoria-metrics-single
+description: Victoria Metrics Single version - high-performance, cost-effective and scalable TSDB, long-term remote storage for Prometheus
+category:
+  - General
+type: catalog
+allowMultipleInstances: false
+scope:
+  - workspace
+licensing:
+  - Ultimate
+  - Enterprise
+certifications:
+overview: |
+  # victoria-metrics-single
+helm-repo: https://victoriametrics.github.io/helm-charts/
+helm-chart: victoria-metrics-single
+
+artifacthub: victoriametrics/victoria-metrics-single
