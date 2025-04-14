@@ -19,7 +19,7 @@ data:
         type: LoadBalancer
       persistentVolume:
         enabled: true
-        size: 50Gi
+        size: 500Gi
       serviceMonitor:
         enabled: true
         extraLabels:
