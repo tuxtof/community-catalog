@@ -11,9 +11,9 @@ data:
         envflag.enable: true
         envflag.prefix: VM_
         loggerFormat: json
-        httpListenAddr: ":9428"
-        syslog.listenAddr.tcp: ":514"
-        syslog.listenAddr.udp: ":514"
+        httpListenAddr: :9428
+        syslog.listenAddr.tcp: :514
+        syslog.listenAddr.udp: :514
       mode: deployment
       service:
         type: LoadBalancer
