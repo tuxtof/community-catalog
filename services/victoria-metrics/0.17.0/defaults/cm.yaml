@@ -16,3 +16,5 @@ data:
         enabled: true
         extraLabels:
           prometheus.kommander.d2iq.io/select: "true"
+      scrape:
+        enabled: true
