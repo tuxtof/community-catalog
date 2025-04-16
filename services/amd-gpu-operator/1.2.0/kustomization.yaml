@@ -4,3 +4,4 @@ resources:
   - helmrelease.yaml
   - helmrepo.yaml
   - deviceconfig.yaml
+  - servicemonitor.yaml
