@@ -9,4 +9,4 @@ data:
   dashboardLink: https://infisical.${ingressAddress}/
   docsLink: https://infisical.com/docs/
   name: infisical
-  version: "0.123.0"
+  version: "0.123.2"
