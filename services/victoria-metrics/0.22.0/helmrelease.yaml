@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: victoria-metrics-single
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: victoria-metrics
+        namespace: ${releaseNamespace}
+      version: 0.22.0
+  interval: 1m0s
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  targetNamespace: victoria-metrics
+  releaseName: victoria-metrics
+  valuesFrom:
+    - kind: ConfigMap
+      name: victoria-metrics-0.22.0-defaults
+    - kind: ConfigMap
+      name: victoria-metrics-overrides
+      optional: true
