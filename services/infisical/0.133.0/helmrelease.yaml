@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: infisical
         namespace: ${releaseNamespace}
-      version: 1.5.0
+      version: 1.6.0
   interval: 1m0s
   install:
     createNamespace: true
