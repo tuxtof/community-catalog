@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: victoria-logs
         namespace: ${releaseNamespace}
-      version: 0.11.3
+      version: 0.11.5
   interval: 1m0s
   install:
     createNamespace: true
