@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: victoria-metrics
         namespace: ${releaseNamespace}
-      version: 0.24.0
+      version: 0.24.1
   interval: 1m0s
   install:
     createNamespace: true
@@ -22,7 +22,7 @@ spec:
   releaseName: victoria-metrics
   valuesFrom:
     - kind: ConfigMap
-      name: victoria-metrics-0.24.0-defaults
+      name: victoria-metrics-0.24.1-defaults
     - kind: ConfigMap
       name: victoria-metrics-overrides
       optional: true

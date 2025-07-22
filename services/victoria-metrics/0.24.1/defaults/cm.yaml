@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: victoria-metrics-0.24.0-defaults
+  name: victoria-metrics-0.24.1-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
