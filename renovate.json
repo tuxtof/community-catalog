@@ -5,14 +5,14 @@
     ":dependencyDashboard"
   ],
   "flux": {
-    "fileMatch": [
-      "\\.yaml$"
+    "managerFilePatterns": [
+      "services/.*/*.yaml$"
     ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
+      "managerFilePatterns": [
         "services/infisical/.*/defaults/cm\\.yaml$"
       ],
       "matchStrings": [
@@ -30,7 +30,6 @@
       "matchPackageNames": [
         "infisical/infisical"
       ],
-      "versioning": "docker",
       "allowedVersions": "/^v\\d+\\.\\d+\\.\\d+-postgres$/"
     }
   ]
