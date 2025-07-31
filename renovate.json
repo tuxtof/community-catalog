@@ -5,8 +5,8 @@
     ":dependencyDashboard"
   ],
   "flux": {
-    "fileMatch": [
-      "\\.yaml$"
+    "managerFilePatterns": [
+      "services/**/*.yaml"
     ]
   },
   "customManagers": [
@@ -30,7 +30,6 @@
       "matchPackageNames": [
         "infisical/infisical"
       ],
-      "versioning": "docker",
       "allowedVersions": "/^v\\d+\\.\\d+\\.\\d+-postgres$/"
     }
   ]
