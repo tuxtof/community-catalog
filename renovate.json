@@ -30,7 +30,6 @@
       "matchPackageNames": [
         "infisical/infisical"
       ],
-      "versioning": "docker",
       "allowedVersions": "/^v\\d+\\.\\d+\\.\\d+-postgres$/"
     }
   ]
