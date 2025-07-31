@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: anything-llm
         namespace: ${releaseNamespace}
-      version: 1.1.2
+      version: 1.1.4
   interval: 1m0s
   install:
     createNamespace: true
