@@ -8,5 +8,32 @@
     "fileMatch": [
       "\\.yaml$"
     ]
-  }
+  },
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^services/infisical/.*/defaults/cm\\.yaml$"
+      ],
+      "matchStrings": [
+        "repository:\\s*(?<depName>infisical/infisical)\\s*\\n\\s*tag:\\s*\"?(?<currentValue>[^\"\\n]+)\"?"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "infisical/infisical"
+      ],
+      "registryUrls": [
+        "https://registry.hub.docker.com"
+      ],
+      "versioning": "semver",
+      "allowedVersions": "/^v\\d+\\.\\d+\\.\\d+-postgres$/"
+    }
+  ]
 }
