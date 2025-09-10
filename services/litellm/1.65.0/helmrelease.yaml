@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: unique
         namespace: ${releaseNamespace}
-      version: 1.65.0
+      version: 1.72.2
   interval: 1m0s
   install:
     createNamespace: true
