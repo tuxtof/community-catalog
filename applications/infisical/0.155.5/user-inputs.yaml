@@ -1,0 +1,56 @@
+schema: "catalog.nkp.nutanix.com/v1/application-user-inputs"
+groups:
+  - name: config
+    label: Infisical Configuration
+    description: Configure Infisical installation settings
+    collapse: false
+    fields:
+      - name: siteUrl
+        label: Infisical Site URL
+        type: string
+        description: Must be an absolute URL including the protocol (e.g. https://app.infisical.com)
+        required: true
+        validations:
+          - type: "pattern"
+            regex: '^(https?:\/\/)([\w\-]+(\.[\w\-]+)+)(:[0-9]{1,5})?(\/[^\s]*)?$'
+            message: "Must be an absolute URL including the protocol (e.g. https://app.infisical.com)"
+
+      - name: authSecret
+        label: Auth Secret
+        type: password
+        description: Must be a random 32 byte base64 string. Can be generated with openssl rand -base64 32
+        required: true
+        validations:
+          - type: "pattern"
+            regex: "^[A-Za-z0-9+/]{43}=$"
+            message: "Must be a random 32 byte base64 string"
+
+      - name: encryptionKey
+        label: Encryption Key
+        type: string
+        description: Must be a random 16 byte hex string. Can be generated with openssl rand -hex 16
+        required: true
+        validations:
+          - type: "pattern"
+            regex: "^[a-fA-F0-9]{32}$"
+            message: "Must be a random 16 byte hex string"
+
+resources:
+  - template:
+      apiVersion: types.kubefed.io/v1beta1
+      kind: FederatedSecret
+      metadata:
+        name: infisical-secrets
+      spec:
+        template:
+          metadata:
+            labels:
+              app: myapp
+          type: Opaque
+          data:
+            AUTH_SECRET: "{{ authSecret | b64enc }}"
+            ENCRYPTION_KEY: "{{ encryptionKey | b64enc }}"
+            SITE_URL: "{{ siteUrl | b64enc }}"
+        placement:
+          clusters:
+            - name: host-cluster
